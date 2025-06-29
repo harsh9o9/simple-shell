@@ -41,6 +41,21 @@ const builtins = Object.freeze({
   exit: () => {
     process.exit(0);
   },
+  pwd: () => console.log(process.cwd()),
+  cd: (args) => {
+    let dir = args?.[0];
+    if (!dir) return;
+
+    if (dir === "~") {
+      dir = process.env.HOME;
+    }
+
+    try {
+      process.chdir(dir);
+    } catch (err) {
+      console.log(`cd: ${dir}: No such file or directory`);
+    }
+  },
   type: (args) => {
     const cmd = args?.[0];
     if (!cmd) return console.log("type: missing argument");
